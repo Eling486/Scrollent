@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      margin: 200vh auto 0 auto;
+      background-color: black;
+    }
+
+    .box#box-2,.box#box-3  {
+      margin: 10vh auto 200vh auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="box" id="box-1" data-scrollent="fade-right-top" data-scrollent-percent="0.2" data-scrollent-delay="100"
+      data-scrollent-initial="0" data-scrollent-translate="20px" data-scrollent-duration="1s"
+      data-scrollent-easing="ease-out">
+    </div>
+    <div class="box" id="box-2" data-scrollent="fade-top" data-scrollent-ref="#box-1" data-scrollent-offset="500"
+      data-scrollent-translate="100%" data-scrollent-reentrant></div>
+    <div class="box" id="box-3" data-scrollent="fade-left-bottom" data-scrollent-offset="0" data-scrollent-translate="50px 10px">
+    </div>
+  </div>
+  </div>
+</body>
+<script type="module">
+  import Scrollent from './src/index.js'
+  window.scrollent = new Scrollent({
+    reentrant: false
+  }).init()
+  window.scrollent.events.refOn(['percentageChanged', document.getElementById('box-1')], (data) => {
+    console.log(data)
+  })
+  console.log(window.scrollent)
+</script>
+
+</html>

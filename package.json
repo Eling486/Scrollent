@@ -1,0 +1,45 @@
+{
+  "name": "scrollent",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/scrollent.umd.cjs",
+  "module": "./dist/scrollent.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "npm:publish": "vite build && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eling486/Scrollent.git"
+  },
+  "keywords": [
+    "scroll",
+    "animation"
+  ],
+  "author": "Eling486",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Eling486/Scrollent/issues"
+  },
+  "homepage": "https://github.com/Eling486/Scrollent#readme",
+  "exports": {
+    ".": {
+      "import": "./dist/scrollent.js",
+      "require": "./dist/scrollent.umd.cjs"
+    }
+  },
+  "dependencies": {
+    "sass": "^1.63.6",
+    "vite-plugin-css-injected-by-js": "^3.2.1"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9",
+    "vite-plugin-compression": "^0.5.1"
+  }
+}

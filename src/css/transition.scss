@@ -1,0 +1,56 @@
+[data-scrollent] {
+  opacity: 0;
+
+  &.scrollent-show {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+[data-scrollent^="invariant"] {
+  opacity: 1;
+}
+
+[data-scrollent^="fade"] {
+  transition-property: opacity;
+}
+
+[data-scrollent^="fade-right"] {
+  transition-property: opacity, transform;
+  transform: translateX(var(--sl-tlx));
+}
+
+[data-scrollent^="fade-left"] {
+  transition-property: opacity, transform;
+  transform: translateX(calc(-1*var(--sl-tlx)));
+}
+
+[data-scrollent^="fade-left-top"] {
+  transition-property: opacity, transform;
+  transform: translateX(calc(-1*var(--sl-tlx))) translateY(calc(-1*var(--sl-tly)));
+}
+
+[data-scrollent^="fade-right-top"] {
+  transition-property: opacity, transform;
+  transform: translateX(var(--sl-tlx)) translateY(calc(-1*var(--sl-tly)));
+}
+
+[data-scrollent^="fade-top"] {
+  transition-property: opacity, transform;
+  transform: translateY(calc(-1*var(--sl-tly)));
+}
+
+[data-scrollent^="fade-left-bottom"] {
+  transition-property: opacity, transform;
+  transform: translateX(calc(-1*var(--sl-tlx))) translateY(var(--sl-tly));
+}
+
+[data-scrollent^="fade-right-bottom"] {
+  transition-property: opacity, transform;
+  transform: translateX(var(--sl-tlx)) translateY(var(--sl-tly));
+}
+
+[data-scrollent^="fade-bottom"] {
+  transition-property: opacity, transform;
+  transform: translateY(var(--sl-tlx));
+}
