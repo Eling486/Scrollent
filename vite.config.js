@@ -29,7 +29,9 @@ export default defineConfig({
     },
   },
   plugins: [
-    //cssInjectedByJs(),
+    cssInjectedByJs({
+      styleId: "scrollent"
+    }),
     viteCompression(),
   ],
 })

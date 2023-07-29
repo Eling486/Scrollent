@@ -12,5 +12,6 @@ yarn add scrollent
 
 ``` js
 import Scrollent from 'scrollent';
-import 'scrollent/dist/scrollent.css';
+
+let scrollent = new Scrollent().init();
 ```
