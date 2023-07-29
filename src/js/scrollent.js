@@ -16,10 +16,11 @@ class Scrollent {
         this.targets = this.options.targets;
         this.render = Render;
         this.events = new Events(this.options);
+        this.listener = new Listener(this.options);
         window.addEventListener(this.options.startEvent , (event) => {
-            this.listener = new Listener(this.options);
             this.refresh()
         });
+        this.refresh()
         return this
     }
 

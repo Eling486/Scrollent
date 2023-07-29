@@ -154,9 +154,9 @@ class y {
     this.options = p(t);
   }
   init() {
-    return this.scan(), this.refs = this.options.refs, this.targets = this.options.targets, this.render = d, this.events = new g(this.options), window.addEventListener(this.options.startEvent, (t) => {
-      this.listener = new u(this.options), this.refresh();
-    }), this;
+    return this.scan(), this.refs = this.options.refs, this.targets = this.options.targets, this.render = d, this.events = new g(this.options), this.listener = new u(this.options), window.addEventListener(this.options.startEvent, (t) => {
+      this.refresh();
+    }), this.refresh(), this;
   }
   scan() {
     this.options.targets = [], this.options.refs = [], document.querySelectorAll("[data-scrollent]").forEach((t) => {
