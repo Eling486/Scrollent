@@ -20,7 +20,6 @@ export default defineConfig({
     rollupOptions: {
       external: ['SCROLLENT_VERSION'],
       output: {
-        name: 'ScrollentInfo',
         globals: {
           SCROLLENT_VERSION: `"${require('./package.json').version}"`,
         },
