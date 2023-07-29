@@ -18,15 +18,18 @@ export default defineConfig({
       fileName: 'scrollent',
     },
     rollupOptions: {
+      external: ['SCROLLENT_VERSION'],
       output: {
+        name: 'ScrollentInfo',
         globals: {
           SCROLLENT_VERSION: `"${require('./package.json').version}"`,
         },
+        assetFileNames: 'scrollent.[ext]'
       },
     },
   },
   plugins: [
-    cssInjectedByJs(),
+    //cssInjectedByJs(),
     viteCompression(),
   ],
 })

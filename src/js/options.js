@@ -3,12 +3,13 @@ export default (options) => {
     const defaultOption = {
         root: document,     // DOM
         reentrant: false,   // Boolean
+        startEvent: 'load', // String (Window Event name)
         once: false,        // Boolean
-        duration: '0.5s',   // CSS
+        duration: 500,   // CSS
         easing: 'ease-out', // CSS
         percent: 0.4,       // Float(0-1)
         offset: 120,        // Number (in px)
-        translate: '10px',  // CSS
+        distance: '20px',  // CSS
         delay: 0,           // Number (in ms)
     };
 

@@ -14,10 +14,12 @@ class Scrollent {
         this.scan();
         this.refs = this.options.refs;
         this.targets = this.options.targets;
-        this.events = new Events(this.options);
-        this.listener = new Listener(this.options);
         this.render = Render;
-        this.render.initStyle(this.options);
+        this.events = new Events(this.options);
+        window.addEventListener(this.options.startEvent , (event) => {
+            this.listener = new Listener(this.options);
+            this.refresh()
+        });
         return this
     }
 
@@ -39,14 +41,14 @@ class Scrollent {
                 dom: dom,
                 events: new DOMEvents('target')
             }
-            let translate = dom.getAttribute(`data-scrollent-translate`) || this.options.translate
-            let translateArr = translate.split(' ')
-            el.translate = {
-                x: translateArr[0],
-                y: translateArr[1]
+            let distance = dom.getAttribute(`data-scrollent-distance`) || this.options.distance
+            let distanceArr = distance.split(' ')
+            el.distance = {
+                x: distanceArr[0],
+                y: distanceArr[1]
             }
-            if (!el.translate.y) {
-                el.translate.y = el.translate.x
+            if (!el.distance.y) {
+                el.distance.y = el.distance.x
             }
 
             /** While reach the percent -> Animation */
@@ -73,27 +75,29 @@ class Scrollent {
             }
 
             /** Has [data-scrollent-delay] and dalay > 0 */
-            let delay = dom.getAttribute(`data-scrollent-delay`)
-            if ((delay && parseInt(delay) > 0) || (delay === '' && this.options.delay > 0)) {
-                el.delay = parseInt(delay) || this.options.delay
-            }
+            let delay = dom.getAttribute(`data-scrollent-delay`) || this.options.delay;
+            if (typeof delay == 'string') delay = parseInt(delay);
+            if (delay <= 0) delay = false;
+            el.delay = delay;
+
 
             /** Has [data-scrollent-once] or options.once ([data-scrollent-once] is not false) */
             el.once = false
             let once = dom.getAttribute(`data-scrollent-once`)
-            if (once || once === '' || (!(once === 'false') && this.options.once)) {
+            if ((once || once === '' || this.options.once) && !(once === 'false')) {
                 el.once = true
             };
 
             /** Has [data-scrollent-reentrant] or options.reentrant ([data-scrollent-reentrant] is not false) */
             el.reentrant = false
             let reentrant = dom.getAttribute(`data-scrollent-reentrant`)
-            if (reentrant || reentrant === '' || (!(reentrant === 'false') && this.options.reentrant)) {
+            if ((reentrant || reentrant === '' || this.options.reentrant) && !(reentrant === 'false')) {
                 el.reentrant = true
             };
 
             /** Has [data-scrollent-duration] */
             el.duration = dom.getAttribute(`data-scrollent-duration`) || this.options.duration
+            if (typeof el.duration == 'string') el.duration = parseInt(el.duration);
 
             /** Has [data-scrollent-ref] */
             let refQuery = dom.getAttribute(`data-scrollent-ref`)
@@ -127,6 +131,14 @@ class Scrollent {
                 children: [target]
             })
         })
+    }
+
+    refresh(delay = this.options.duration) {
+        this.render.initStyle(this.options);
+        setTimeout(()=>{
+            this.listener.updatePercentage()
+            this.render.updateClass(this.options);
+        }, delay)
     }
 }
 

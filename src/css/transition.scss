@@ -1,56 +1,54 @@
+$sl-dur: var(--sl-dur);
+$sl-dx: var(--sl-dx);
+$sl-dy: var(--sl-dy);
+
 [data-scrollent] {
   opacity: 0;
-
-  &.scrollent-show {
-    opacity: 1;
-    transform: translateX(0) translateY(0);
-  }
+  transition-duration: calc($sl-dur * 1ms);
 }
 
-[data-scrollent^="invariant"] {
+[data-scrollent^="none"] {
   opacity: 1;
 }
 
 [data-scrollent^="fade"] {
-  transition-property: opacity;
+  opacity: 0;
+  transition-property: opacity, transform;
+
+  &.scrollent-show {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 [data-scrollent^="fade-right"] {
-  transition-property: opacity, transform;
-  transform: translateX(var(--sl-tlx));
+  transform: translate3d($sl-dx, 0, 0);
 }
 
 [data-scrollent^="fade-left"] {
-  transition-property: opacity, transform;
-  transform: translateX(calc(-1*var(--sl-tlx)));
+  transform: translate3d(calc(-1 * $sl-dx), 0, 0);
 }
 
 [data-scrollent^="fade-left-top"] {
-  transition-property: opacity, transform;
-  transform: translateX(calc(-1*var(--sl-tlx))) translateY(calc(-1*var(--sl-tly)));
+  transform: translate3d(calc(-1 * $sl-dx), calc(-1 * $sl-dy), 0);
 }
 
 [data-scrollent^="fade-right-top"] {
-  transition-property: opacity, transform;
-  transform: translateX(var(--sl-tlx)) translateY(calc(-1*var(--sl-tly)));
+  transform: translate3d($sl-dx, calc(-1 * $sl-dy), 0);
 }
 
 [data-scrollent^="fade-top"] {
-  transition-property: opacity, transform;
-  transform: translateY(calc(-1*var(--sl-tly)));
+  transform: translate3d(0, calc(-1 * $sl-dy), 0);
 }
 
 [data-scrollent^="fade-left-bottom"] {
-  transition-property: opacity, transform;
-  transform: translateX(calc(-1*var(--sl-tlx))) translateY(var(--sl-tly));
+  transform: translate3d(calc(-1 * $sl-dx), $sl-dy, 0);
 }
 
 [data-scrollent^="fade-right-bottom"] {
-  transition-property: opacity, transform;
-  transform: translateX(var(--sl-tlx)) translateY(var(--sl-tly));
+  transform: translate3d($sl-dx, $sl-dy, 0);
 }
 
 [data-scrollent^="fade-bottom"] {
-  transition-property: opacity, transform;
-  transform: translateY(var(--sl-tlx));
+  transform: translate3d(0, $sl-dx, 0);
 }

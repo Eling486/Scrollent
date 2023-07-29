@@ -6,19 +6,23 @@ class Listener {
         options.root.addEventListener('scroll', () => {
             this.handleScroll()
         })
-        this.handleScroll()
     }
 
     handleScroll() {
+        this.updatePercentage()
+        Render.updateClass(this.options)
+    }
+
+    updatePercentage() {
         for (let i = 0; i < this.options.refs.length; i++) {
             let ref = this.options.refs[i].ref
             let windowHeight = window.innerHeight;
             let refRect = ref.getBoundingClientRect();
-            if (refRect.top > windowHeight) {
+            /*if (refRect.top > windowHeight) {
                 this.options.refs[i].percentage = 0
                 continue;
             }
-            /*if ((refRect.top + refRect.height) < 0) {
+            if ((refRect.top + refRect.height) < 0) {
                 this.options.refs[i].percentage = 1
                 continue;
             }*/
@@ -31,7 +35,6 @@ class Listener {
                 this.options.refs[i].percentage = percentage
             }
         }
-        Render.updateClass(this.options)
     }
 
     destroy() {

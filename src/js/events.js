@@ -3,9 +3,14 @@ class Events {
         this.events = {};
         this.options = options;
 
-        this.allowedEvents = [
-            'destroy'
-        ]
+        this.allowedEvents = {
+            instance: ['destroy'],
+            ref: ['percentageChanged'],
+            target: [
+                'in',
+                'out'
+            ]
+        }
     }
 
     on(data, callback) {
@@ -14,42 +19,37 @@ class Events {
                 if (!this.events[data]) {
                     this.events[data] = [];
                 }
-                this.events[data].push(callback);
+                return this.events[data].push(callback);
             }
             return;
         }
-    }
-
-    refOn(data, callback) {
         if (Array.isArray(data)) {
             data = {
                 event: data[0],
-                ref: data[1]
+                dom: data[1]
             }
         }
-        if (this.isDOM(data.ref) && typeof callback === 'function') {
+        if(!this.isDOM(data.dom)){
+            return console.error(`[Scrollent] the ref or target event needs to provide a DOM`);
+        }
+        if (this.test(data.event, 'ref') && this.isDOM(data.dom) && typeof callback === 'function'){
             for (let i = 0; i < this.options.refs.length; i++) {
-                if (this.options.refs[i].ref == data.ref) {
+                if (this.options.refs[i].ref == data.dom) {
                     this.options.refs[i].events.on(data.event, callback)
                 }
             }
+            return
         }
-    }
-
-    targetOn(data, callback) {
-        if (Array.isArray(data)) {
-            data = {
-                event: data[0],
-                target: data[1]
-            }
-        }
-        if (this.isDOM(data.target) && typeof callback === 'function') {
+        if (this.test(data.event, 'target') && this.isDOM(data.dom) && typeof callback === 'function'){
             for (let i = 0; i < this.options.targets.length; i++) {
                 if (this.options.targets[i].dom == data.target) {
                     this.options.targets[i].events.on(data.event, callback)
                 }
             }
+            return
         }
+        console.error(`[Scrollent] Unknown event name: ${data.event}`);
+        return
     }
 
     trigger(name, data) {
@@ -60,17 +60,18 @@ class Events {
         }
     }
 
-    isDOM (dom) {
+    isDOM(dom) {
         return (typeof dom === 'object' && dom.nodeType === 1 && typeof dom.nodeName === 'string')
     }
 
-    test(name) {
-        if (this.selectorEvents.indexOf(name) !== -1) {
+    test(name, type = 'instance') {
+        if (this.allowedEvents[type].indexOf(name) !== -1) {
             return true;
-        } else {
-            console.error(`Unknown event name: ${name}`);
-            return null;
         }
+        if(type == 'instance'){
+            console.error(`[Scrollent] Unknown event name: ${name}`);
+        }
+        return false
     }
 }
 
