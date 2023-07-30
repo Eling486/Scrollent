@@ -1435,7 +1435,7 @@
   window.scrollent.events.on(['percentageChanged', document.getElementById('box-2')], (data) => {
     document.getElementById('box-1').innerHTML = data.to
   })
-  window.addEventListener('load', scrollent.refresh(3000));
+  window.addEventListener('load', scrollent.refresh(true, 3000));
   console.log(window.scrollent)
 </script>
 

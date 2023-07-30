@@ -134,7 +134,10 @@ class Scrollent {
         })
     }
 
-    refresh(delay = this.options.duration) {
+    refresh(force = false, delay = this.options.duration) {
+        if(force){
+            this.scan();
+        }
         this.render.initStyle(this.options);
         setTimeout(()=>{
             this.listener.updatePercentage()

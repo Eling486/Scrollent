@@ -191,10 +191,10 @@ class y {
       });
     });
   }
-  refresh(t = this.options.duration) {
-    this.render.initStyle(this.options), setTimeout(() => {
+  refresh(t = !1, e = this.options.duration) {
+    t && this.scan(), this.render.initStyle(this.options), setTimeout(() => {
       this.listener.updatePercentage(), this.render.updateClass(this.options);
-    }, t);
+    }, e);
   }
 }
 export {
