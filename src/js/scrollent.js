@@ -40,7 +40,7 @@ class Scrollent {
         document.querySelectorAll(`[data-scrollent]`).forEach((dom) => {
             let el = {
                 dom: dom,
-                events: new DOMEvents('target')
+                events: new DOMEvents()
             }
             let distance = dom.getAttribute(`data-scrollent-distance`) || this.options.distance
             let distanceArr = distance.split(' ')
@@ -128,7 +128,7 @@ class Scrollent {
             }
             return this.options.refs.push({
                 ref: target.ref,
-                events: new DOMEvents('ref'),
+                events: new DOMEvents(),
                 children: [target]
             })
         })
@@ -136,6 +136,7 @@ class Scrollent {
 
     refresh(force = false, delay = this.options.duration) {
         if(force){
+            console.log('force')
             this.scan();
         }
         this.render.initStyle(this.options);

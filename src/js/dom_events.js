@@ -1,5 +1,5 @@
 class DOMEvents {
-    constructor(type = 'target') {
+    constructor() {
         this.events = {}
     }
 

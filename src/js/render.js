@@ -14,19 +14,20 @@ const Render = {
                 }
                 if (percent) {
                     if (ref.percentage > percent) {
-                        if(target.once){
+                        if (target.once) {
                             ref.children.splice(i, 1)
                         }
                         if (ref.percentage > 1 && target.reentrant) {
                             target.dom.classList.remove(this.cReady, this.cShow);
                             continue;
                         }
-                        if(target.dom.classList.contains(this.cShow)) continue;
+                        if (target.dom.classList.contains(this.cShow)) continue;
                         if (delay) {
                             if (target.dom.classList.contains(this.cReady)) continue;
                             target.dom.classList.add(this.cReady);
-                            setTimeout(() => {
-                                if(ref.percentage > percent || target.once){
+                            if (target.delayTimer) clearTimeout(target.delayTimer);
+                            target.delayTimer = setTimeout(() => {
+                                if (ref.percentage > percent || target.once) {
                                     target.dom.classList.add(this.cShow);
                                 }
                                 target.dom.classList.remove(this.cReady);

@@ -3,14 +3,20 @@ import Render from "./render"
 class Listener {
     constructor(options) {
         this.options = options
+        this.scrollTimer;
         options.root.addEventListener('scroll', () => {
             this.handleScroll()
         })
     }
 
     handleScroll() {
-        this.updatePercentage()
-        Render.updateClass(this.options)
+        if(this.scrollTimer) return;
+        this.scrollTimer = setTimeout(() => {
+            this.updatePercentage()
+            Render.updateClass(this.options)
+            clearTimeout(this.scrollTimer);
+            this.scrollTimer = null;
+        }, 50)
     }
 
     updatePercentage() {
