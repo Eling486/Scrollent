@@ -11,6 +11,7 @@ node_modules
 test/
 src/
 index.html
+dev.html
 assets/
 vite.config.js
 *.local

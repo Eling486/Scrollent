@@ -47,10 +47,17 @@ const Render = {
     initStyle(options) {
         options.targets.forEach(target => {
             target.dom.classList.remove(this.cReady, this.cShow);
-            target.dom.style.setProperty('--sl-dur', target.duration);
-            target.dom.style.transitionTimingFunction = options.easing
-            target.dom.style.setProperty('--sl-dx', target.distance.x);
-            target.dom.style.setProperty('--sl-dy', target.distance.y);
+            target.dom.style.setProperty('--sl-dur', target.params.duration);
+            target.dom.style.setProperty('--sl-eas', target.params.easing);
+            target.dom.style.setProperty('--sl-dsx', target.params.distance.symX);
+            target.dom.style.setProperty('--sl-dsy', target.params.distance.symY);
+            target.dom.style.setProperty('--sl-dx', target.params.distance.x);
+            target.dom.style.setProperty('--sl-dy', target.params.distance.y);
+            target.dom.style.setProperty('--sl-rx', target.params.rotate.x);
+            target.dom.style.setProperty('--sl-ry', target.params.rotate.y);
+            target.dom.style.setProperty('--sl-rz', target.params.rotate.z);
+            target.dom.style.setProperty('--sl-s', target.params.scale);
+            target.dom.style.setProperty('--sl-per', target.params.perspective);
             target.dom.classList.add('scrollent-init')
         })
     }

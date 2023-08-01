@@ -4,7 +4,7 @@ class Listener {
     constructor(options) {
         this.options = options
         this.scrollTimer;
-        options.root.addEventListener('scroll', () => {
+        this.options.root.addEventListener('scroll', (e) => {
             this.handleScroll()
         })
     }
@@ -16,7 +16,7 @@ class Listener {
             Render.updateClass(this.options)
             clearTimeout(this.scrollTimer);
             this.scrollTimer = null;
-        }, 50)
+        }, this.options.debounce)
     }
 
     updatePercentage() {

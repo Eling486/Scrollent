@@ -1,0 +1,22 @@
+$sl-dur: var(--sl-dur);
+$sl-eas: var(--sl-eas);
+
+[data-scrollent] {
+  opacity: 1;
+  transition-duration: calc($sl-dur * 1ms);
+  transition-timing-function: $sl-eas;
+  transform-origin: center;
+
+  &.scrollent-show {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[data-scrollent^="none"] {
+  opacity: 1;
+}
+
+[data-scrollent^="fade"] {
+  opacity: 0;
+}

@@ -1,0 +1,13 @@
+$sl-dsx: var(--sl-dsx);
+$sl-dsy: var(--sl-dsy);
+$sl-dx: var(--sl-dx);
+$sl-dy: var(--sl-dy);
+$sl-rx: var(--sl-rx);
+$sl-ry: var(--sl-ry);
+$sl-rz: var(--sl-rz);
+$sl-s: var(--sl-s);
+$sl-per: var(--sl-per);
+
+[data-scrollent] {
+  transform: perspective($sl-per) translate3d(calc($sl-dsx * $sl-dx), calc($sl-dsy * $sl-dy), 0) scale($sl-s) rotateX(calc(1deg * $sl-rx)) rotateY(calc(1deg * $sl-ry)) rotateZ(calc(1deg * $sl-rz));
+}
