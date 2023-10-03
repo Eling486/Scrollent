@@ -1,6 +1,6 @@
 (function(){"use strict";try{if(typeof document<"u"){var a=document.createElement("style");a.id="scrollent",a.appendChild(document.createTextNode("[data-scrollent]{opacity:1;transition-duration:calc(var(--sl-dur) * 1ms);transition-timing-function:var(--sl-eas);transform-origin:center}[data-scrollent].scrollent-show{opacity:1;transform:none}[data-scrollent^=none]{opacity:1}[data-scrollent^=fade]{opacity:0}[data-scrollent]{transform:perspective(var(--sl-per)) translate3d(calc(var(--sl-dsx) * var(--sl-dx)),calc(var(--sl-dsy) * var(--sl-dy)),0) scale(var(--sl-s)) rotateX(calc(1deg * var(--sl-rx))) rotateY(calc(1deg * var(--sl-ry))) rotate(calc(1deg * var(--sl-rz)))}")),document.head.appendChild(a)}}catch(t){console.error("vite-plugin-css-injected-by-js",t)}})();
-const Y = (r) => {
-  const e = {
+const D = (r) => {
+  const t = {
     root: document,
     // DOM
     reentrant: !1,
@@ -15,7 +15,11 @@ const Y = (r) => {
     // CSS
     percent: 0.4,
     // Float(0-1)
+    percentOut: 1,
+    // Float(0-1)
     offset: 120,
+    // Number (in px)
+    offsetOut: null,
     // Number (in px)
     distance: "20px",
     // CSS
@@ -29,70 +33,74 @@ const Y = (r) => {
     attrName: "data-scrollent"
   };
   if (!r)
-    return e;
-  for (const t in e)
-    e.hasOwnProperty(t) && !r.hasOwnProperty(t) && (r[t] = e[t]);
+    return t;
+  for (const e in t)
+    t.hasOwnProperty(e) && !r.hasOwnProperty(e) && (r[e] = t[e]);
   return r;
-}, b = {
+}, z = {
   cShow: "scrollent-show",
   cReady: "scrollent-ready-to-show",
   updateClass(r) {
-    r.refs.forEach((e) => {
-      for (let t = 0; t < e.children.length; t++) {
-        let s = e.children[t], n = s.percent, l = s.offset, p = s.delay;
-        if (l) {
-          let u = window.innerHeight;
-          n = l / u;
+    r.refs.forEach((t) => {
+      for (let e = 0; e < t.children.length; e++) {
+        let s = t.children[e], o = s.percent, l = s.percentOut, d = s.delay;
+        if (s.offset) {
+          let p = window.innerHeight;
+          o = s.offset / p;
         }
-        if (n) {
-          if (e.percentage > n) {
-            if (s.once && e.children.splice(t, 1), e.percentage > 1 && s.reentrant) {
-              s.dom.classList.remove(this.cReady, this.cShow);
+        if (s.offsetOut) {
+          let p = window.innerHeight;
+          l = (p - s.offsetOut) / p;
+        }
+        if (o) {
+          if (t.percentage > o) {
+            if (s.once && t.children.splice(e, 1), t.percentage > l && s.reentrant) {
+              s.dom.classList.contains(this.cShow) && s.events.trigger("out"), s.dom.classList.remove(this.cReady, this.cShow);
               continue;
             }
             if (s.dom.classList.contains(this.cShow))
               continue;
-            if (p) {
+            if (d) {
               if (s.dom.classList.contains(this.cReady))
                 continue;
               s.dom.classList.add(this.cReady), s.delayTimer && clearTimeout(s.delayTimer), s.delayTimer = setTimeout(() => {
-                (e.percentage > n || s.once) && s.dom.classList.add(this.cShow), s.dom.classList.remove(this.cReady);
-              }, p);
+                (t.percentage > o || s.once) && (s.events.trigger("in"), s.dom.classList.add(this.cShow)), s.dom.classList.remove(this.cReady);
+              }, d);
               continue;
             }
-            s.dom.classList.add(this.cShow);
+            s.dom.classList.contains(this.cReady) || s.events.trigger("in"), s.dom.classList.add(this.cShow);
             continue;
           }
-          s.dom.classList.remove(this.cReady, this.cShow);
+          s.dom.classList.contains(this.cShow) && s.events.trigger("out"), s.dom.classList.remove(this.cReady, this.cShow);
           continue;
         }
       }
     });
   },
   initStyle(r) {
-    r.targets.forEach((e) => {
-      e.dom.classList.remove(this.cReady, this.cShow), e.dom.style.setProperty("--sl-dur", e.params.duration), e.dom.style.setProperty("--sl-eas", e.params.easing), e.dom.style.setProperty("--sl-dsx", e.params.distance.symX), e.dom.style.setProperty("--sl-dsy", e.params.distance.symY), e.dom.style.setProperty("--sl-dx", e.params.distance.x), e.dom.style.setProperty("--sl-dy", e.params.distance.y), e.dom.style.setProperty("--sl-rx", e.params.rotate.x), e.dom.style.setProperty("--sl-ry", e.params.rotate.y), e.dom.style.setProperty("--sl-rz", e.params.rotate.z), e.dom.style.setProperty("--sl-s", e.params.scale), e.dom.style.setProperty("--sl-per", e.params.perspective), e.dom.classList.add("scrollent-init");
+    r.targets.forEach((t) => {
+      t.dom.classList.remove(this.cReady, this.cShow), t.dom.style.setProperty("--sl-dur", t.params.duration), t.dom.style.setProperty("--sl-eas", t.params.easing), t.dom.style.setProperty("--sl-dsx", t.params.distance.symX), t.dom.style.setProperty("--sl-dsy", t.params.distance.symY), t.dom.style.setProperty("--sl-dx", t.params.distance.x), t.dom.style.setProperty("--sl-dy", t.params.distance.y), t.dom.style.setProperty("--sl-rx", t.params.rotate.x), t.dom.style.setProperty("--sl-ry", t.params.rotate.y), t.dom.style.setProperty("--sl-rz", t.params.rotate.z), t.dom.style.setProperty("--sl-s", t.params.scale), t.dom.style.setProperty("--sl-per", t.params.perspective), t.dom.classList.add("scrollent-init");
     });
   }
 };
-class z {
-  constructor(e) {
-    this.options = e, this.scrollTimer, this.options.root.addEventListener("scroll", (t) => {
+class H {
+  constructor(t) {
+    this.options = t, this.scrollTimer, this.options.root.addEventListener("scroll", (e) => {
       this.handleScroll();
     });
   }
   handleScroll() {
     this.scrollTimer || (this.scrollTimer = setTimeout(() => {
-      this.updatePercentage(), b.updateClass(this.options), clearTimeout(this.scrollTimer), this.scrollTimer = null;
+      this.updatePercentage(), z.updateClass(this.options), clearTimeout(this.scrollTimer), this.scrollTimer = null;
     }, this.options.debounce));
   }
   updatePercentage() {
-    for (let e = 0; e < this.options.refs.length; e++) {
-      let t = this.options.refs[e].ref, s = window.innerHeight, n = t.getBoundingClientRect(), l = 1 - (n.top + n.height) / (s + n.height);
-      l !== this.options.refs[e].percentage && (this.options.refs[e].events.trigger("percentageChanged", {
-        from: this.options.refs[e].percentage,
+    for (let t = 0; t < this.options.refs.length; t++) {
+      let e = this.options.refs[t].ref, s = window.innerHeight, o = e.getBoundingClientRect(), l = 1 - (o.top + o.height) / (s + o.height);
+      l !== this.options.refs[t].percentage && (this.options.refs[t].events.trigger("percentageChanged", {
+        from: this.options.refs[t].percentage,
         to: l
-      }), this.options.refs[e].percentage = l);
+      }), this.options.refs[t].percentage = l);
     }
   }
   destroy() {
@@ -101,9 +109,9 @@ class z {
     });
   }
 }
-class C {
-  constructor(e) {
-    this.events = {}, this.options = e, this.allowedEvents = {
+class M {
+  constructor(t) {
+    this.events = {}, this.options = t, this.allowedEvents = {
       instance: ["destroy"],
       ref: ["percentageChanged"],
       target: [
@@ -112,128 +120,134 @@ class C {
       ]
     };
   }
-  on(e, t) {
-    if (typeof e == "string")
-      return this.test(e) && typeof t == "function" ? (this.events[e] || (this.events[e] = []), this.events[e].push(t)) : void 0;
-    if (Array.isArray(e) && (e = {
-      event: e[0],
-      dom: e[1]
-    }), !this.isDOM(e.dom))
+  on(t, e) {
+    if (typeof t == "string")
+      return this.test(t) && typeof e == "function" ? (this.events[t] || (this.events[t] = []), this.events[t].push(e)) : void 0;
+    if (Array.isArray(t) && (t = {
+      event: t[0],
+      dom: t[1]
+    }), !this.isDOM(t.dom))
       return console.error("[Scrollent] the ref or target event needs to provide a DOM");
-    if (this.test(e.event, "ref") && this.isDOM(e.dom) && typeof t == "function") {
+    if (this.test(t.event, "ref") && this.isDOM(t.dom) && typeof e == "function") {
       for (let s = 0; s < this.options.refs.length; s++)
-        this.options.refs[s].ref == e.dom && this.options.refs[s].events.on(e.event, t);
+        this.options.refs[s].ref == t.dom && this.options.refs[s].events.on(t.event, e);
       return;
     }
-    if (this.test(e.event, "target") && this.isDOM(e.dom) && typeof t == "function") {
+    if (this.test(t.event, "target") && this.isDOM(t.dom) && typeof e == "function") {
       for (let s = 0; s < this.options.targets.length; s++)
-        this.options.targets[s].dom == e.target && this.options.targets[s].events.on(e.event, t);
+        this.options.targets[s].dom == t.dom && this.options.targets[s].events.on(t.event, e);
       return;
     }
-    console.error(`[Scrollent] Unknown event name: ${e.event}`);
+    console.error(`[Scrollent] Unknown event name: ${t.event}`);
   }
-  trigger(e, t) {
-    if (this.events[e] && this.events[e].length)
-      for (let s = 0; s < this.events[e].length; s++)
-        this.events[e][s](t);
+  trigger(t, e = null) {
+    if (this.events[t] && this.events[t].length)
+      for (let s = 0; s < this.events[t].length; s++)
+        this.events[t][s](e);
   }
-  isDOM(e) {
-    return typeof e == "object" && e.nodeType === 1 && typeof e.nodeName == "string";
+  isDOM(t) {
+    return typeof t == "object" && t.nodeType === 1 && typeof t.nodeName == "string";
   }
-  test(e, t = "instance") {
-    return this.allowedEvents[t].indexOf(e) !== -1 ? !0 : (t == "instance" && console.error(`[Scrollent] Unknown event name: ${e}`), !1);
+  test(t, e = "instance") {
+    return this.allowedEvents[e].indexOf(t) !== -1 ? !0 : (e == "instance" && console.error(`[Scrollent] Unknown event name: ${t}`), !1);
   }
 }
-class R {
+class Y {
   constructor() {
     this.events = {};
   }
-  on(e, t) {
-    this.events[e] || (this.events[e] = []), this.events[e].push(t);
+  on(t, e) {
+    this.events[t] || (this.events[t] = []), this.events[t].push(e);
   }
-  trigger(e, t) {
-    if (this.events[e] && this.events[e].length)
-      for (let s = 0; s < this.events[e].length; s++)
-        this.events[e][s](t);
+  trigger(t, e) {
+    if (this.events[t] && this.events[t].length)
+      for (let s = 0; s < this.events[t].length; s++)
+        this.events[t][s](e);
   }
 }
-class H {
-  constructor(e) {
-    this.options = Y(e);
+class F {
+  constructor(t) {
+    this.options = D(t);
   }
   init() {
-    return this.scan(), this.refs = this.options.refs, this.targets = this.options.targets, this.render = b, this.events = new C(this.options), this.listener = new z(this.options), window.addEventListener(this.options.startEvent, (e) => {
+    return this.scan(), this.refs = this.options.refs, this.targets = this.options.targets, this.render = z, this.events = new M(this.options), this.listener = new H(this.options), window.addEventListener(this.options.startEvent, (t) => {
       this.refresh();
     }), this.refresh(), this;
   }
   scan() {
-    this.options.targets = [], this.options.refs = [], document.querySelectorAll("[data-scrollent]:not(.scrollent-init)").forEach((e) => {
-      let t = {
-        dom: e,
-        events: new R(),
+    this.options.targets = [], this.options.refs = [], document.querySelectorAll("[data-scrollent]:not(.scrollent-init)").forEach((t) => {
+      let e = {
+        dom: t,
+        events: new Y(),
         params: {}
-      }, s = this.options.attrName, n = e.getAttribute("data-scrollent"), l = 0, p = 0, u = /(fade)?-?((left)|(right)|(down)|(up))((-left)|(-right)|(-down)|(-up))?/g, w = ["left", "right"], x = ["up", "down"], S = [1, -1], A = [1, -1], a = n.match(u);
-      if (a) {
-        let o = a[0].indexOf("-");
-        o == 0 && (a = null), o !== 0 && (a = a[0].substring(o + 1, a.Length));
+      }, s = this.options.attrName, o = t.getAttribute("data-scrollent"), l = 0, d = 0, p = /(fade)?-?((left)|(right)|(down)|(up))((-left)|(-right)|(-down)|(-up))?/g, x = ["left", "right"], S = ["up", "down"], L = [1, -1], A = [1, -1], h = o.match(p);
+      if (h) {
+        let i = h[0].indexOf("-");
+        i == 0 && (h = null), i !== 0 && (h = h[0].substring(i + 1, h.Length));
       }
-      a && a.split("-").forEach((h) => {
-        let d = w.indexOf(h), $ = x.indexOf(h);
-        d >= 0 && (l = S[d]), $ >= 0 && (p = A[$]);
+      h && h.split("-").forEach((f) => {
+        let u = x.indexOf(f), X = S.indexOf(f);
+        u >= 0 && (l = L[u]), X >= 0 && (d = A[X]);
       });
-      let y = (e.getAttribute(`${s}-distance`) || this.options.distance).split(" ");
-      t.params.distance = {
+      let y = (t.getAttribute(`${s}-distance`) || this.options.distance).split(" ");
+      e.params.distance = {
         x: y[0],
         symX: l,
         y: y[1] || y[0],
-        symY: p
+        symY: d
       };
-      let i = (e.getAttribute(`${s}-rotate`) || this.options.rotate).split(" ");
-      i[0] == "-" && (i[0] = "0"), i[1] == "-" && (i[1] = "0"), t.params.rotate = {
-        x: i[0] || i[1] || i[2],
-        y: i[1] || i[0] || i[2],
-        z: i[2] || i[0] || i[1]
+      let n = (t.getAttribute(`${s}-rotate`) || this.options.rotate).split(" ");
+      n[0] == "-" && (n[0] = "0"), n[1] == "-" && (n[1] = "0"), e.params.rotate = {
+        x: n[0] || n[1] || n[2],
+        y: n[1] || n[0] || n[2],
+        z: n[2] || n[0] || n[1]
       };
-      let L = ["scale", "easing", "perspective", "flip", "zoom"];
-      for (let o = 0; o < L.length; o++) {
-        let h = L[o];
-        t.params[h] = e.getAttribute(`${s}-${h}`) || this.options[h];
+      let P = ["scale", "easing", "perspective", "flip", "zoom"];
+      for (let i = 0; i < P.length; i++) {
+        let f = P[i];
+        e.params[f] = t.getAttribute(`${s}-${f}`) || this.options[f];
       }
-      n.indexOf("zoom") >= 0 && (t.params.scale = t.params.zoom);
-      let O = 0, P = 0, X = /(flip-)((left)|(right)|(down)|(up))/, E = n.match(X);
-      if (E) {
-        let o = E[0].split("-")[1], h = w.indexOf(o), d = x.indexOf(o);
-        h >= 0 && (O = S[h], t.params.rotate.x = O * this.options.flip), d >= 0 && (P = A[d], t.params.rotate.y = P * this.options.flip);
+      o.indexOf("zoom") >= 0 && (e.params.scale = e.params.zoom);
+      let $ = 0, E = 0, C = /(flip-)((left)|(right)|(down)|(up))/, T = o.match(C);
+      if (T) {
+        let i = T[0].split("-")[1], f = x.indexOf(i), u = S.indexOf(i);
+        f >= 0 && ($ = L[f], e.params.rotate.x = $ * this.options.flip), u >= 0 && (E = A[u], e.params.rotate.y = E * this.options.flip);
       }
-      let c = e.getAttribute(`${s}-percent`);
-      c === "" && (t.percent = this.options.percent), c && (t.percent = parseFloat(c), c.includes("%") && (t.percent = parseFloat(c) / 100));
-      let m = e.getAttribute(`${s}-offset`);
-      (m || m === "") && (t.offset = parseInt(m) || this.options.offset), !t.offset && !t.percent && (t.percent = this.options.percent);
-      let f = e.getAttribute(`${s}-delay`) || this.options.delay;
-      typeof f == "string" && (f = parseInt(f)), f <= 0 && (f = !1), t.delay = f, t.once = !1;
-      let g = e.getAttribute(`${s}-once`);
-      (g || g === "" || this.options.once) && g !== "false" && (t.once = !0), t.reentrant = !1;
-      let v = e.getAttribute(`${s}-reentrant`);
-      (v || v === "" || this.options.reentrant) && v !== "false" && (t.reentrant = !0), t.params.duration = e.getAttribute(`${s}-duration`) || this.options.duration, typeof t.params.duration == "string" && (t.params.duration = parseInt(t.params.duration));
-      let T = e.getAttribute(`${s}-ref`);
-      T && (t.ref = document.querySelector(T)), t.ref || (t.ref = e), this.options.targets.push(t);
-    }), this.options.targets.forEach((e) => {
-      for (let t = 0; t < this.options.refs.length; t++)
-        if (this.options.refs[t].ref == e.ref)
-          return this.options.refs[t].children.push(e);
+      let c = t.getAttribute(`${s}-percent`), m = t.getAttribute(`${s}-percent-out`);
+      c === "" && (e.percent = this.options.percent), m === "" && (e.percentOut = this.options.percentOut);
+      function R(i) {
+        return c = parseFloat(i), i.includes("%") && (c = parseFloat(i) / 100), c;
+      }
+      c && (e.percent = R(c)), m && (e.percentOut = R(m));
+      let g = t.getAttribute(`${s}-offset`);
+      (g || g === "") && (e.offset = parseInt(g) || this.options.offset);
+      let v = t.getAttribute(`${s}-offset-out`);
+      (v || v === "") && (e.offsetOut = parseInt(v) || this.options.offsetOut), !e.offset && !e.percent && (e.percent = this.options.percent), !e.offsetOut && !e.percentOut && (e.percentOut = this.options.percentOut);
+      let a = t.getAttribute(`${s}-delay`) || this.options.delay;
+      typeof a == "string" && (a = parseInt(a)), a <= 0 && (a = !1), e.delay = a, e.once = !1;
+      let w = t.getAttribute(`${s}-once`);
+      (w || w === "" || this.options.once) && w !== "false" && (e.once = !0), e.reentrant = !1;
+      let O = t.getAttribute(`${s}-reentrant`);
+      (O || O === "" || this.options.reentrant) && O !== "false" && (e.reentrant = !0), e.params.duration = t.getAttribute(`${s}-duration`) || this.options.duration, typeof e.params.duration == "string" && (e.params.duration = parseInt(e.params.duration));
+      let b = t.getAttribute(`${s}-ref`);
+      b && (e.ref = document.querySelector(b)), e.ref || (e.ref = t), this.options.targets.push(e);
+    }), this.options.targets.forEach((t) => {
+      for (let e = 0; e < this.options.refs.length; e++)
+        if (this.options.refs[e].ref == t.ref)
+          return this.options.refs[e].children.push(t);
       return this.options.refs.push({
-        ref: e.ref,
-        events: new R(),
-        children: [e]
+        ref: t.ref,
+        events: new Y(),
+        children: [t]
       });
     });
   }
-  refresh(e = !1, t = this.options.duration) {
-    e && this.scan(), this.render.initStyle(this.options), setTimeout(() => {
+  refresh(t = !1, e = this.options.duration) {
+    t && this.scan(), this.render.initStyle(this.options), setTimeout(() => {
       this.listener.updatePercentage(), this.render.updateClass(this.options);
-    }, t);
+    }, e);
   }
 }
 export {
-  H as default
+  F as default
 };

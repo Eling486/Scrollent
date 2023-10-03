@@ -6,18 +6,23 @@ const Render = {
             for (let i = 0; i < ref.children.length; i++) {
                 let target = ref.children[i]
                 let percent = target.percent
-                let offset = target.offset
+                let percentOut = target.percentOut
                 let delay = target.delay
-                if (offset) {
+                if (target.offset) {
                     let windowHeight = window.innerHeight;
-                    percent = offset / windowHeight
+                    percent = target.offset / windowHeight
+                }
+                if (target.offsetOut) {
+                    let windowHeight = window.innerHeight;
+                    percentOut = (windowHeight - target.offsetOut) / windowHeight
                 }
                 if (percent) {
                     if (ref.percentage > percent) {
                         if (target.once) {
                             ref.children.splice(i, 1)
                         }
-                        if (ref.percentage > 1 && target.reentrant) {
+                        if (ref.percentage > percentOut && target.reentrant) {
+                            if (target.dom.classList.contains(this.cShow)) target.events.trigger('out');
                             target.dom.classList.remove(this.cReady, this.cShow);
                             continue;
                         }
@@ -28,6 +33,7 @@ const Render = {
                             if (target.delayTimer) clearTimeout(target.delayTimer);
                             target.delayTimer = setTimeout(() => {
                                 if (ref.percentage > percent || target.once) {
+                                    target.events.trigger('in');
                                     target.dom.classList.add(this.cShow);
                                 }
                                 target.dom.classList.remove(this.cReady);
@@ -35,9 +41,11 @@ const Render = {
                             }, delay);
                             continue;
                         }
+                        if (!target.dom.classList.contains(this.cReady)) target.events.trigger('in');
                         target.dom.classList.add(this.cShow);
                         continue;
                     }
+                    if (target.dom.classList.contains(this.cShow)) target.events.trigger('out');
                     target.dom.classList.remove(this.cReady, this.cShow);
                     continue;
                 }

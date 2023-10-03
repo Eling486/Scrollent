@@ -42,7 +42,7 @@ class Events {
         }
         if (this.test(data.event, 'target') && this.isDOM(data.dom) && typeof callback === 'function'){
             for (let i = 0; i < this.options.targets.length; i++) {
-                if (this.options.targets[i].dom == data.target) {
+                if (this.options.targets[i].dom == data.dom) {
                     this.options.targets[i].events.on(data.event, callback)
                 }
             }
@@ -52,7 +52,7 @@ class Events {
         return
     }
 
-    trigger(name, data) {
+    trigger(name, data = null) {
         if (this.events[name] && this.events[name].length) {
             for (let i = 0; i < this.events[name].length; i++) {
                 this.events[name][i](data);

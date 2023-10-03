@@ -8,7 +8,9 @@ export default (options) => {
         duration: 500,      // CSS
         easing: 'ease-out', // CSS
         percent: 0.4,       // Float(0-1)
+        percentOut: 1,       // Float(0-1)
         offset: 120,        // Number (in px)
+        offsetOut: null,    // Number (in px)
         distance: '20px',   // CSS
         rotate: '0',
         scale: 1,

@@ -120,14 +120,26 @@ class Scrollent {
 
             /** While reach the percent -> Animation */
             let percent = dom.getAttribute(`${attrName}-percent`)
+            let percentOut = dom.getAttribute(`${attrName}-percent-out`)
             if (percent === '') {
                 el.percent = this.options.percent
             }
-            if (percent) {
-                el.percent = parseFloat(percent)
-                if (percent.includes('%')) {
-                    el.percent = parseFloat(percent) / 100
+            if (percentOut === '') {
+                el.percentOut = this.options.percentOut
+            }
+
+            function convertPercent(data){
+                percent = parseFloat(data)
+                if (data.includes('%')) {
+                    percent = parseFloat(data) / 100
                 }
+                return percent
+            }
+            if (percent) {
+                el.percent = convertPercent(percent)
+            }
+            if (percentOut) {
+                el.percentOut = convertPercent(percentOut)
             }
 
             /** While reach the offset -> Animation */
@@ -135,10 +147,17 @@ class Scrollent {
             if (offset || offset === '') {
                 el.offset = parseInt(offset) || this.options.offset
             }
+            let offsetOut = dom.getAttribute(`${attrName}-offset-out`)
+            if (offsetOut || offsetOut === '') {
+                el.offsetOut = parseInt(offsetOut) || this.options.offsetOut
+            }
 
             /** Default percent */
             if (!el.offset && !el.percent) {
                 el.percent = this.options.percent
+            }
+            if (!el.offsetOut && !el.percentOut) {
+                el.percentOut = this.options.percentOut
             }
 
             /** Has [data-scrollent-delay] and dalay > 0 */
